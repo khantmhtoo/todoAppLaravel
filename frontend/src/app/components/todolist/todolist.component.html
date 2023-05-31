@@ -1,0 +1,8 @@
+<p>todolist works!</p>
+<ul>
+    <li *ngFor="let todo of todoList | async">
+        <app-todo [todoData]="todo" (sendEmit)="selectData($event)">
+
+        </app-todo></li>
+</ul>
+<span>{{selectedData| json}}</span>
