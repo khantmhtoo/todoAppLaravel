@@ -5,7 +5,8 @@ import { TodoComponent } from "../todo/todo.component";
 import { Todo } from "src/app/core/interfaces/todo";
 import { TododetailComponent } from "../tododetail/tododetail.component";
 import { ButtonModule } from "primeng/button";
-import { DialogModule } from "primeng/dialog";
+import { TodoformComponent } from "../todoform/todoform.component";
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-todolist",
@@ -15,7 +16,9 @@ import { DialogModule } from "primeng/dialog";
     TodoComponent,
     TododetailComponent,
     ButtonModule,
-    DialogModule,
+    TodoformComponent,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: "./todolist.component.html",
   styleUrls: ["./todolist.component.scss"],
@@ -24,14 +27,21 @@ export class TodolistComponent {
   public todoList: any = this.todoService.todoList$;
   public selectedData!: any;
   public visible: boolean = false;
+  public form: FormGroup;
 
-  constructor(private readonly todoService: TodoService) {
+  constructor(private readonly todoService: TodoService, private readonly _fb:FormBuilder) {
     this.todoService.fetchAll().subscribe();
+    this.form = this._fb.group({
+      title: ['', Validators.required]
+    })
   }
 
-  selectData(data: Todo): void {
+  public selectData(data: Todo): void {
     if (data.completed) {
       this.todoService.completeRequest(data);
+      if(data.id === this.selectedData.id) {
+        this.closeDetail()
+      }
     } else {
       this.selectedData = data;
     }
@@ -41,7 +51,12 @@ export class TodolistComponent {
     this.selectedData = !this.selectedData;
   }
 
-  addTodo(data: Todo): void {
+  public addTodo(): void {
     this.visible = true;
+  }
+
+  public submitForm(e:any): void {
+    this.todoService.addRequest(e.title)
+    this.visible = false;
   }
 }

@@ -14,6 +14,7 @@ export class TodoComponent {
   @Input() todoData!: any;
   @Output() sendEmit = new EventEmitter<any>();
 
+
   editData() {
     this.sendEmit.emit(this.todoData);
     console.log("Edit Request");
@@ -26,8 +27,6 @@ export class TodoComponent {
       completed: !this.todoData.completed,
       userId: this.todoData.userId,
     };
-    console.log("Completed");
-
     this.sendEmit.emit(sendData);
   }
 }
