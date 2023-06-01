@@ -1,8 +1,15 @@
-<div>
-    <span><span>ID:</span> {{todoData.id}}</span>
-    <span>{{todoData.title}}</span>
-<div>
-    <button (click)="sendData()">Check</button>
-    <button (click)="sendData()">Edit</button>
+<div class="p-1 mb-2">
+  <div class="grid">
+    <span class="col-2 font-bold">ID: {{ todoData.id }}</span>
+    <span class="col">{{ todoData.title }}</span>
+  </div>
+  <div class="my-1">
+    <p-button
+      label="Check"
+      class="mr-3"
+      (click)="completedRequest()"
+    ></p-button>
+    <p-button label="Edit" (click)="editData()"></p-button>
+  </div>
 </div>
-</div>
+<p-divider></p-divider>
